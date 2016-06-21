@@ -12,7 +12,8 @@ require([
     "js/util/Stats.js"
 ], function(GLContextHelper, Camera, GLUtil, MD5) {
     "use strict";
-
+    var meshStartNumber = 0;
+    var per = document.getElementById("percentage");
     // Shader
     var meshVS = [
         "attribute vec3 position;",
@@ -172,6 +173,13 @@ require([
 
             meshNumber.innerHTML = self.models.length;
 
+            if (meshStartNumber != 0) {
+              var disPer = (self.models.length/meshStartNumber).toFixed(2);
+              if (useSimd) {
+                per.innerHTML = "(" + disPer + ")";
+              }
+            }
+
             var anim = new MD5.Md5Anim();
             anim.load('models/md5/monsters/hellknight/idle2.md5anim', function(anim) {
                 var currentFrame = Math.round(Math.random() * 120);
@@ -196,7 +204,14 @@ require([
         clearInterval(anim.handle);
         this.models.pop();
         meshNumber.innerHTML = this.models.length;
+        if (meshStartNumber != 0) {
+          var disPer = (this.models.length/meshStartNumber).toFixed(2);
+          if (useSimd) {
+            per.innerHTML = "(" + disPer + ")";
+          }
+        }
     }
+
 
     // Setup the canvas and GL context, initialize the scene 
     var canvas = document.getElementById("webgl-canvas");
@@ -233,11 +248,14 @@ require([
             adjuster.reset(parseInt(targetFps.value));
             simdBtn.innerHTML = "Don't use SIMD";
             info.innerHTML = 'SIMD';
+            percentage.style.visibility = "visible";
+            meshStartNumber = parseInt(meshNumber.innerHTML);
         } else {
             useSimd = false;
             adjuster.reset(parseInt(targetFps.value));
             simdBtn.innerHTML = 'Use SIMD';
             info.innerHTML = 'No SIMD';
+            percentage.style.visibility = "hidden";
         }
         MD5.setSIMD(useSimd);
     });
@@ -290,7 +308,7 @@ var MeshAdjuster = function (renderer, gl, stats) {
     var renderer = renderer;
     var gl = gl;
     var stats = stats;
-    var targetFps = 60.0;
+    var targetFps = 40.0;
     var meetTarget = 0;
     var missTarget = 0;
     var unstable = 0;

@@ -12,7 +12,7 @@
 
 .mesh {
   position:absolute;
-  top:480px;
+  top:410px;
   color:white;
   font-weight:bold;
   font-size:40pt;
@@ -71,7 +71,7 @@
 }
 
 .btn {
-  width: 145px;
+  width: 150px;
   display: inline-block;
   margin-bottom: 0;
   font-weight: normal;
@@ -104,12 +104,24 @@ body {
   font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
 }
 
+#per {
+  visibility: hidden;
+}
+
+#removeBtn {
+  display:none
+}
+
+#addBtn {
+  display:none
+}
+
 #webgl-canvas {
     display: block;
     margin: auto;
     position: relative;
     width: 854px;
-    height: 480px;
+    height: 410px;
     background-color: #330000; /* Will display red background if something went wrong during context creation */
 }
 
